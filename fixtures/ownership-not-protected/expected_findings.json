@@ -1,0 +1,11 @@
+{
+  "expected": [
+    {
+      "rule_id": "SUPA-RLS-005",
+      "severity": "low",
+      "confidence": "low",
+      "table": "public.documents",
+      "note": "Social/public SELECT read - contextual review warning, not a prescriptive owner-only fix."
+    }
+  ]
+}

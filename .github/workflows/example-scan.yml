@@ -1,0 +1,29 @@
+# Example: run RLSGuard on every push / pull request and surface findings in the
+# GitHub Security tab. Copy this into your Supabase project's
+# .github/workflows/ directory.
+#
+# In your own repo, replace `uses: ./` with the published action reference, e.g.:
+#   uses: your-org/rlsguard@v1
+name: RLSGuard
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  security-events: write   # required to upload SARIF to code scanning
+
+jobs:
+  rlsguard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan Supabase project
+        uses: ./                # in a consumer repo: your-org/rlsguard@v1
+        with:
+          path: "."
+          fail-on: "high"       # fail the build on high/critical findings
+          explain: "true"       # attach Supabase doc citations

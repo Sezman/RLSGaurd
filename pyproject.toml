@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rlsguard"
+version = "0.1.0"
+description = "Static security scanner for Supabase projects (RLS, secrets, storage, functions)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "RLSGuard" }]
+dependencies = [
+    "typer>=0.12",
+    "rich>=13.7",
+    "pydantic>=2.6",
+    "sqlglot>=23.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+# Optional: enables AI-generated explanations with `--explain`. Retrieval and
+# citations work without this; they are fully offline.
+rag = [
+    "anthropic>=0.40",
+]
+
+[project.scripts]
+rlsguard = "rlsguard.cli.main:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rlsguard"]
+# Ship the bundled documentation corpus used by the RAG layer.
+artifacts = ["src/rlsguard/rag/knowledge/*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

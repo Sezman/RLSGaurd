@@ -1,0 +1,10 @@
+{
+  "expected": [
+    {
+      "rule_id": "SUPA-FUNC-001",
+      "severity": "medium",
+      "function": "public.on_row_change",
+      "note": "Trigger function (returns trigger): downgraded from high because it is not directly callable via the API."
+    }
+  ]
+}

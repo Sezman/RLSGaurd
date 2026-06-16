@@ -1,0 +1,9 @@
+{
+  "expected": [
+    {
+      "rule_id": "SUPA-KEY-001",
+      "severity": "critical",
+      "file": "src/supabaseClient.ts"
+    }
+  ]
+}

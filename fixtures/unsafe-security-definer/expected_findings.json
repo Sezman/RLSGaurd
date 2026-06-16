@@ -1,0 +1,9 @@
+{
+  "expected": [
+    {
+      "rule_id": "SUPA-FUNC-001",
+      "severity": "high",
+      "function": "public.delete_user_data"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "expected": [
+    {
+      "rule_id": "SUPA-RLS-001",
+      "severity": "critical",
+      "table": "public.messages"
+    }
+  ]
+}

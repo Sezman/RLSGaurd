@@ -1,0 +1,84 @@
+name: "RLSGuard"
+description: "Scan a Supabase project for RLS, secret, storage, and function security issues."
+branding:
+  icon: "shield"
+  color: "green"
+
+inputs:
+  path:
+    description: "Path to the Supabase project to scan."
+    required: false
+    default: "."
+  fail-on:
+    description: "Minimum severity that fails the build (low|medium|high|critical)."
+    required: false
+    default: "high"
+  explain:
+    description: "Attach Supabase documentation citations to findings."
+    required: false
+    default: "false"
+  sarif-file:
+    description: "Path to write the SARIF report to."
+    required: false
+    default: "rlsguard.sarif"
+  upload-sarif:
+    description: "Upload the SARIF report to GitHub code scanning."
+    required: false
+    default: "true"
+  python-version:
+    description: "Python version used to run RLSGuard."
+    required: false
+    default: "3.12"
+
+outputs:
+  exit-code:
+    description: "RLSGuard exit code (0 clean, 1 findings at/above threshold, 2 error)."
+    value: ${{ steps.scan.outputs.exit }}
+  sarif-file:
+    description: "Path to the generated SARIF report."
+    value: ${{ inputs.sarif-file }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install RLSGuard
+      shell: bash
+      run: python -m pip install --quiet "$GITHUB_ACTION_PATH"
+
+    - name: Run RLSGuard
+      id: scan
+      shell: bash
+      run: |
+        set +e
+        rlsguard scan "${{ inputs.path }}" \
+          --format sarif \
+          --output "${{ inputs.sarif-file }}" \
+          --fail-on "${{ inputs.fail-on }}" \
+          ${{ inputs.explain == 'true' && '--explain' || '' }}
+        echo "exit=$?" >> "$GITHUB_OUTPUT"
+
+    - name: Upload SARIF to code scanning
+      if: ${{ always() && inputs.upload-sarif == 'true' && hashFiles(inputs.sarif-file) != '' }}
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: ${{ inputs.sarif-file }}
+        category: rlsguard
+
+    - name: Fail on findings
+      shell: bash
+      run: |
+        code="${{ steps.scan.outputs.exit }}"
+        if [ "$code" = "2" ]; then
+          echo "::error::RLSGuard failed to scan the project."
+          exit 2
+        fi
+        if [ "$code" != "0" ]; then
+          echo "::error::RLSGuard found issues at or above the '${{ inputs.fail-on }}' threshold."
+          exit 1
+        fi
+        echo "RLSGuard: no findings at or above the '${{ inputs.fail-on }}' threshold."

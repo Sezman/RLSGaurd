@@ -1,0 +1,9 @@
+{
+  "expected": [
+    {
+      "rule_id": "SUPA-STORAGE-001",
+      "severity": "medium",
+      "table": "storage.objects"
+    }
+  ]
+}

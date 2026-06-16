@@ -1,0 +1,10 @@
+{
+  "expected": [
+    {
+      "rule_id": "SUPA-RLS-004",
+      "severity": "low",
+      "table": "public.profiles",
+      "note": "Hardening only: PostgreSQL applies USING as the implicit WITH CHECK."
+    }
+  ]
+}

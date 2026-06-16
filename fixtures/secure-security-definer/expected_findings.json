@@ -1,0 +1,11 @@
+{
+  "expected": [
+    {
+      "rule_id": "SUPA-FUNC-001",
+      "severity": "low",
+      "confidence": "low",
+      "function": "public.get_own_profile",
+      "note": "Pinned search_path + auth check + no other signals: surfaced for review at low severity."
+    }
+  ]
+}
