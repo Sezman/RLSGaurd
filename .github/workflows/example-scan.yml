@@ -3,7 +3,7 @@
 # .github/workflows/ directory.
 #
 # In your own repo, replace `uses: ./` with the published action reference, e.g.:
-#   uses: your-org/rlsguard@v1
+#   uses Sezman/RLSGuard@v1
 name: RLSGuard
 
 on:
@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Scan Supabase project
-        uses: ./                # in a consumer repo: your-org/rlsguard@v1
+        uses: ./                # in a consumer repo: Sezman/RLSGuard@v1
         with:
           path: "."
           fail-on: "high"       # fail the build on high/critical findings

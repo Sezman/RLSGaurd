@@ -112,7 +112,7 @@ _SECURITY_SCORE = {
     "low": "3.0",
     "info": "1.0",
 }
-_INFO_URI = "https://github.com/your-org/rlsguard"
+_INFO_URI = "https://github.com/Sezman/RLSGuard"
 
 
 def render_sarif(result: ScanResult) -> str:

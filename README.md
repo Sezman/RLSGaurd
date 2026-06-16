@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: your-org/rlsguard@v1
+      - uses: Sezman/RLSGuard@v1
         with:
           path: "."
           fail-on: "high"
